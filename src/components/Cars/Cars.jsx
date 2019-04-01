@@ -1,57 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import SelectItemField from '../SelectItemField/SelectItemField'
 import Grid from '@material-ui/core/Grid'
 import Card from '@material-ui/core/Card'
+import { api } from '../../helpers/api'
 
 export default function Cars() {
 
-  const [brand, setBrand] = useState('item 1')
-  const [brands, setBrands] = useState([
-    {
-      value: 'item 1',
-      label: 'item 1'
-    },
-    {
-      value: 'item 2',
-      label: 'item 2'
-    },
-    {
-      value: 'item 3',
-      label: 'item 3'
-    }
-  ])
+  const [brand, setBrand] = useState('')
+  const [brands, setBrands] = useState([])
 
-  const [model, setModel] = useState('item 1')
-  const [models, setModels] = useState([
-    {
-      value: 'item 1',
-      label: 'item 1'
-    },
-    {
-      value: 'item 2',
-      label: 'item 2'
-    },
-    {
-      value: 'item 3',
-      label: 'item 3'
-    }
-  ])
+  const [model, setModel] = useState('')
+  const [models, setModels] = useState([])
 
-  const [year, setYear] = useState('item 1')
-  const [years, setYears] = useState([
-    {
-      value: 'item 1',
-      label: 'item 1'
-    },
-    {
-      value: 'item 2',
-      label: 'item 2'
-    },
-    {
-      value: 'item 3',
-      label: 'item 3'
-    }
-  ])
+  const [year, setYear] = useState('')
+  const [years, setYears] = useState([])
 
   function handleChangeBrand (e) {
     setBrand(e.target.value)
@@ -64,6 +26,30 @@ export default function Cars() {
   function handleChangeYear (e) {
     setYear(e.target.value)
   }
+
+  useEffect(() => {
+    brand && api(`/marcas/${brand}/modelos`)
+    .then(data => {
+      setModels(data.modelos.map(e => ({
+        label: e.nome,
+        value: e.codigo
+      })))
+      setYears(data.anos.map(e => ({
+        label: e.nome,
+        value: e.codigo
+      })))
+    })
+  }, [brand])
+
+  useEffect(() => {
+    api('/marcas')
+    .then(data => {
+      setBrands(data.map(e => ({
+        label: e.nome,
+        value: e.codigo
+      })))
+    })
+  }, [])
 
   return (
     <div className="cars">
