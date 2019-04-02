@@ -37,10 +37,6 @@ export default function Cars() {
         label: e.nome,
         value: e.codigo
       })))
-      // setYears(data.anos.map(e => ({
-      //   label: e.nome,
-      //   value: e.codigo
-      // })))
     })
   }, [brand])
 
@@ -66,8 +62,6 @@ export default function Cars() {
     years.length > 0 && setYear(years[0].value)
   }, [years])
 
-  
-
   useEffect(() => {
     model && brand && api(`/marcas/${brand}/modelos/${model}/anos`)
     .then(data => {
@@ -79,7 +73,6 @@ export default function Cars() {
         })))
     })
   }, [model])
-
 
   useEffect(() => {
     const car = !!model && !!brand && !!year
