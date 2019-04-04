@@ -48,7 +48,7 @@ export default function Cars() {
         value: e.codigo
       })))
     })
-  }, [])
+  },[])
 
   useEffect(() => {
     brands.length > 0 && setBrand(brands[0].value)
@@ -81,7 +81,6 @@ export default function Cars() {
       setCar(data)
     })
   }, [model, brand, year])
-
 
   return (
     <div className="cars">
